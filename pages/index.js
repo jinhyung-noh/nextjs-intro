@@ -1,21 +1,12 @@
 import React, { useEffect, useState } from "react";
 import SEO from "../components/SEO";
 
-const Home = () => {
-  const [movies, setMovies] = useState();
-  useEffect(() => {
-    (async () => {
-      const { results } = await fetch(`/api/movies`).then((response) =>
-        response.json()
-      );
-      setMovies(results);
-    })();
-  }, []);
+const Home = ({ results }) => {
+  useEffect(() => {}, []);
   return (
     <div className="container">
       <SEO title={"Home"}></SEO>
-      {!movies && <h4>Loading...</h4>}
-      {movies?.map((movie) => {
+      {results?.map((movie) => {
         return (
           <div className="movie" key={movie.id}>
             <img
@@ -51,3 +42,15 @@ const Home = () => {
 };
 
 export default Home;
+
+// only run on the server(only on backends..)
+export const getServerSideProps = async () => {
+  const { results } = await fetch(`http://localhost:3000/api/movies`).then(
+    (response) => response.json()
+  );
+  return {
+    props: {
+      results,
+    },
+  };
+};
