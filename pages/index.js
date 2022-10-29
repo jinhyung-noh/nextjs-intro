@@ -7,14 +7,11 @@ const Home = ({ results }) => {
   const router = useRouter();
   const detailUrlData = (id, title) => {
     return {
-      pathname: `/movies/${id}`,
-      query: {
-        title,
-      },
+      pathname: `/movies/${title}/${id}`,
     };
   };
   const onClickMovie = (id, title) => {
-    router.push(detailUrlData(id, title), `/movies/${id}`);
+    router.push(detailUrlData(id, title));
   };
   return (
     <div className="container">
@@ -30,10 +27,7 @@ const Home = ({ results }) => {
               src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
             ></img>
             <h4>
-              <Link
-                href={detailUrlData(movie.id, movie.original_title)}
-                as={`/movies/${movie.id}`}
-              >
+              <Link href={detailUrlData(movie.id, movie.original_title)}>
                 <a>{movie.original_title}</a>
               </Link>
             </h4>
